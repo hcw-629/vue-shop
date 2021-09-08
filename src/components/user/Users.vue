@@ -94,6 +94,7 @@
                 type="warning"
                 icon="el-icon-setting"
                 size="mini"
+                @click="allotRole(scope.row)"
               ></el-button>
             </el-tooltip>
           </template>
@@ -203,6 +204,35 @@
         </span>
       </el-dialog>
 
+ <!--弹出分配角色功能的对话框 
+     -->
+    <el-dialog
+  title="分配角色"
+  :visible.sync="allotRoledialogVisible"
+  width="30%"
+  @close="closeallotRoledialog"
+ >
+  <span>当前的用户: {{usersInfo.username}}</span><br>
+   <span>当前的角色: {{usersInfo.role_name}}</span><br>
+  <!--v-model绑定的是选择的值，label是选项中的值，
+  value是你选中这项后这项真正的值是roleInfo.id,然后这个id会传给selectvalueId  -->
+   <span>分配新角色:
+      <el-select v-model="selectvalueId" placeholder="请选择">
+    <el-option
+      v-for="item in roleInfo"
+      :key="item.id"
+      :label="item.roleName"
+      :value="item.id"
+      >
+    </el-option>
+  
+  </el-select>
+   </span>
+  <span slot="footer" class="dialog-footer">
+    <el-button @click="allotRoledialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="saveAllotRole">确 定</el-button>
+  </span>
+</el-dialog>
      
     </el-card>
   </div>
@@ -289,7 +319,14 @@ export default {
       updateDialogVisible: false,
       // 修改按钮查询到的用户信息对象
       editdata: {},
-      
+      // 分配角色的对话框显示
+      allotRoledialogVisible:false,
+      // 定义根据id查询出的用户信息对象
+      usersInfo:{},
+      // 定义查询出的角色信息数组
+      roleInfo:[],
+      // 定义分配角色下拉框选中的值的id
+      selectvalueId:''
     };
   },
   created() {
@@ -426,6 +463,46 @@ export default {
         this.$message.success("删除用户信息成功")
         this.getUserlist()
     },
+    // 分配角色功能
+  async  allotRole(scoperow){
+        this.usersInfo=scoperow
+
+        // 查询角色信息
+          const { data: res } = await this.$http.get(
+          "roles"
+        )
+        if (res.meta.status != 200) {
+          this.$message.error("查询角色信息失败")
+        }
+        
+        this.roleInfo=res.data
+
+      this.allotRoledialogVisible = true
+    },
+    // 点击确定分配角色按钮
+ async saveAllotRole(){
+  //  如果没有选择分配的角色
+      if(!this.selectvalueId){
+        return this.$message.error("请选中分配的角色！")
+      }
+      // 给用户分配角色的网络请求
+          const { data: res } = await this.$http.put(
+          `users/${this.usersInfo.id}/role`,
+          {rid:this.selectvalueId}
+        )
+        if (res.meta.status != 200) {
+          this.$message.error("分配角色失败")
+        }
+        this.$message.success("分配角色成功")
+        this.getUserlist();
+        this.allotRoledialogVisible = false
+
+    },
+    // 当确认分配角色对话框时重置下拉框的值，及清除之前加载的用户信息，即打开就是新的用户信息
+    closeallotRoledialog(){
+      this.selectvalueId=''
+      this.usersInfo={}
+    }
    
   },
   
