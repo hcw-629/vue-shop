@@ -245,6 +245,7 @@ export default {
       if (res.meta.status != 200) {
         return this.$message("获取商品分类失败");
       }
+      
       this.goodscate = res.data.result;
       this.total = res.data.total;
     },
@@ -276,7 +277,7 @@ export default {
       }
      this.getParentCateinfo=res.data
     },
-    // 选择项发生变化立即触发这个函数
+    // 选择项发生变化立即触发这个函数,没选父级的那么添加的就是一级的分类
     parentCateChange(){
         console.log(this.selectedKeys);
         // 如果选择项为空，即selectedKeys的值的length为0
@@ -300,7 +301,7 @@ export default {
       if (res.meta.status !== 201) {
         return this.$message("添加分类失败");
       }
-      this.$message("添加分类成功");
+      this.$message.success("添加分类成功");
       this.addCatedialogVisible = false;
       this.getGoodsCate();
 
