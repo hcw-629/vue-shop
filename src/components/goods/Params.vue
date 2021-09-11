@@ -456,7 +456,7 @@ export default {
         this.$refs.saveTagInput.$refs.input.focus();
       });
     },
-    // 删除标签
+    // 删除标签splice() 方法用于添加或删除数组中的元素。
     deltag(i, row) {
       row.attr_vals.splice(i, 1);
       this.savevals(row);
