@@ -19,7 +19,7 @@
       >
       </el-alert>
 
-      <!--  :active="activeIndex-0" 减0是让他变成数字-->
+      <!--步骤条  :active="activeIndex-0" 减0是让他变成数字-->
       <el-steps
         :space="200"
         :active="activeIndex - 0"
@@ -219,7 +219,7 @@ export default {
         return false;
       }
     },
-    // 获取商品动态参数
+    // 获取商品动静态参数
     async getParams() {
       if (this.activeIndex === "1") {
         const {
@@ -254,6 +254,7 @@ export default {
     },
     // 定义图片的移除
     handleRemove(file) {
+        
       //    获取将要删除的图片的临时路径
       const filePath = file.response.data.tmp_path;
       // 根据临时路径findIndex查到对应的索引值
@@ -264,6 +265,7 @@ export default {
     // 图片上传成功的事件
     handleSuccess(Response) {
       // 1.拼接得到一个图片信息对象
+      console.log(Response);
       const picsObj = {
         pic: Response.data.tmp_path,
       };
@@ -277,7 +279,7 @@ export default {
         if (!valid) {
           return this.$message.error("请填入必填信息！");
         }
-        //    执行添加的业务逻辑,因为addForm在表单要进行双向数据绑定，所以在拼接之前先把addForm深拷贝一份，join把数组变成字符串
+        //执行添加的业务逻辑,因为addForm在表单要进行双向数据绑定，所以在拼接之前先把addForm深拷贝一份，join把数组变成字符串
         const form = _.cloneDeep(this.addForm);
         form.goods_cat = form.goods_cat.join(",");
         // 处理动态参数,把this.activeinfo做forEach循环，每循环一次都拿到一个动态属性的item项

@@ -37,10 +37,14 @@ import {
     Step,
     CheckboxGroup,
     Checkbox,
-    Upload
+    Upload,
+    Timeline,
+    TimelineItem
 
 
 } from 'element-ui'
+Vue.use(Timeline)
+Vue.use(TimelineItem)
 Vue.use(Upload)
 Vue.use(CheckboxGroup)
 Vue.use(Checkbox)
@@ -77,6 +81,7 @@ Vue.use(Menu)
 Vue.use(Submenu)
 Vue.use(MenuItemGroup)
 Vue.use(MenuItem)
+
 // Message弹框提示组件需要全局挂载
 Vue.prototype.$message = Message
 Vue.prototype.$confirm=MessageBox.confirm
