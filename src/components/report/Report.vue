@@ -9,7 +9,7 @@
 
       <!-- 卡片区域 -->
     <el-card class="box-card">
-<div id="main" style="width: 600px;height:400px;"></div>
+<div id="main" style="width: 800px;height:400px;"></div>
     </el-card>
     
     
@@ -73,7 +73,7 @@ export default {
 
          // specify chart configuration item and data准备好数据和配置项
     //    把查询到的数据和定义的数据进行合并,因为直接用获取到的数据会失去一些效果，所以要合并一下
-   const result= _merge(res.data,this.options)
+   const result=_.merge(res.data,this.options)
 
         // use configuration item and data specified to show chart展示数据
         myChart.setOption(result);
