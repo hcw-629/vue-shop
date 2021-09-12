@@ -16,21 +16,32 @@ import 'quill/dist/quill.core.css' // import styles
 import 'quill/dist/quill.snow.css' // for snow theme
 import 'quill/dist/quill.bubble.css' // for bubble theme
 
+// 导入Nprogress进度条的js和css
+import Nprogress from 'nprogress'
+import 'nprogress/nprogress.css'
+
 
 // 引入axios包
 import axios from 'axios'
 // 设置请求的根路径
-axios.defaults.baseURL='http://127.0.0.1:8888/api/private/v1/'
+axios.defaults.baseURL = 'http://127.0.0.1:8888/api/private/v1/'
 
-//axios请求拦截
-axios.interceptors.request.use(config=>{
+//axios请求拦截    展示进度条nprogress.start()
+axios.interceptors.request.use(config => {
+  //在发起网络请求时加载进度条
+  Nprogress.start()
   //为请求头对象，添加token验证的Authorization字段
-  config.headers.Authorization=window.sessionStorage.getItem('token')
+  config.headers.Authorization = window.sessionStorage.getItem('token')
+  return config
+})
+//在发起网络请求完成后隐藏进度条
+axios.interceptors.response.use(config => {
+  Nprogress.done()
   return config
 })
 
 // 挂载到vue原型对象上:这样每一个vue组件都可以通过this.$http发起Ajax请求
-Vue.prototype.$http= axios
+Vue.prototype.$http = axios
 
 Vue.config.productionTip = false
 
@@ -41,19 +52,19 @@ Vue.component('tree-table', TreeTable)
 Vue.use(VueQuillEditor)
 
 // 全局定义一个时间过滤器,getDatafilter是过滤器的名字，getData是获取的时间
-Vue.filter('getDatafilter',function(getData){
-        const dt=new Date(getData)
+Vue.filter('getDatafilter', function (getData) {
+  const dt = new Date(getData)
 
-        const y=dt.getFullYear()
-        // 月份是从0开始的所以+1，padStart就是如果只有一个数字则在前面加0
-        const m=(dt.getMonth()+1+'').padStart(2,'0')
-        const d=(dt.getDate()+'').padStart(2,'0')
+  const y = dt.getFullYear()
+  // 月份是从0开始的所以+1，padStart就是如果只有一个数字则在前面加0
+  const m = (dt.getMonth() + 1 + '').padStart(2, '0')
+  const d = (dt.getDate() + '').padStart(2, '0')
 
-        const hh=(dt.getHours()+'').padStart(2,'0')
-        const mm=(dt.getMinutes()+'').padStart(2,'0')
-        const ss=(dt.getSeconds()+'').padStart(2,'0')
+  const hh = (dt.getHours() + '').padStart(2, '0')
+  const mm = (dt.getMinutes() + '').padStart(2, '0')
+  const ss = (dt.getSeconds() + '').padStart(2, '0')
 
-        return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+  return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
 })
 
 new Vue({

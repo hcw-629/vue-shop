@@ -4,7 +4,7 @@
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>商品管理</el-breadcrumb-item>
-       <el-breadcrumb-item :to="{ path: '/goods' }">商品列表</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/goods' }">商品列表</el-breadcrumb-item>
       <el-breadcrumb-item>添加商品</el-breadcrumb-item>
     </el-breadcrumb>
 
@@ -222,11 +222,12 @@ export default {
     // 获取商品动静态参数
     async getParams() {
       if (this.activeIndex === "1") {
-        const {
-          data: res,
-        } = await this.$http.get(`categories/${this.cateId}/attributes`, {
-          params: { sel: "many" },
-        });
+        const { data: res } = await this.$http.get(
+          `categories/${this.cateId}/attributes`,
+          {
+            params: { sel: "many" },
+          }
+        );
         if (res.meta.status !== 200) {
           return this.$message.error("查询商品动态参数失败");
         }
@@ -236,11 +237,12 @@ export default {
         });
         this.activeinfo = res.data;
       } else if (this.activeIndex === "2") {
-        const {
-          data: res,
-        } = await this.$http.get(`categories/${this.cateId}/attributes`, {
-          params: { sel: "only" },
-        });
+        const { data: res } = await this.$http.get(
+          `categories/${this.cateId}/attributes`,
+          {
+            params: { sel: "only" },
+          }
+        );
         if (res.meta.status !== 200) {
           return this.$message.error("查询商品静态参数失败");
         }
@@ -254,7 +256,6 @@ export default {
     },
     // 定义图片的移除
     handleRemove(file) {
-        
       //    获取将要删除的图片的临时路径
       const filePath = file.response.data.tmp_path;
       // 根据临时路径findIndex查到对应的索引值
@@ -271,7 +272,6 @@ export default {
       };
       // 将图片信息对象push到pics数组中
       this.addForm.pics.push(picsObj);
-      
     },
     // 添加商品按钮
     addgoods() {

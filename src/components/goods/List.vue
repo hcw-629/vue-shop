@@ -169,7 +169,7 @@ export default {
         ],
         goods_cat: [
           { required: true, message: "请输入商品分类", trigger: "blur" },
-        ]
+        ],
       },
       // 编辑商品对话框的切换
       editgooddialogVisible: false,

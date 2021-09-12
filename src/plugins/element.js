@@ -1,14 +1,14 @@
 import Vue from 'vue'
-import { 
-    Button, 
-    Form, 
-    FormItem, 
-    Input, 
-    Message, 
-    Container, 
-    Header, 
-    Aside, 
-    Main, 
+import {
+    Button,
+    Form,
+    FormItem,
+    Input,
+    Message,
+    Container,
+    Header,
+    Aside,
+    Main,
     Menu,
     Submenu,
     MenuItemGroup,
@@ -84,4 +84,4 @@ Vue.use(MenuItem)
 
 // Message弹框提示组件需要全局挂载
 Vue.prototype.$message = Message
-Vue.prototype.$confirm=MessageBox.confirm
+Vue.prototype.$confirm = MessageBox.confirm
